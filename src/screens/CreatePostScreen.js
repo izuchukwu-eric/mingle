@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Text, StyleSheet, View, Image, TextInput, Button } from "react-native"
+import { Entypo } from "@expo/vector-icons"
+import * as ImagePicker from "expo-image-picker"
 
 const user = {
     id: "u1",
@@ -11,20 +13,45 @@ const user = {
   
 const CreatePostScreen = () => {
     const [ description, setDescription ] = useState("hello");
+    const [ image, setImage ] = useState(null);
 
     const onSubmit = () => {
         console.warn("on submit", description)
         setDescription("")
     }
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+      
+        console.log(result);
+      
+        if (!result.cancelled) {
+          setImage(result.uri);
+        }
+      };
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image source={{ uri: user.image }} style={styles.image} />
+                <Image source={{ uri: user.image }} style={styles.profileImage} />
                 <Text style={styles.name}>{user.name}</Text>
+                <Entypo 
+                    onPress={pickImage}
+                    name='images'
+                    size={24}
+                    color="limegreen"
+                    style={styles.icon}
+                />
             </View>
 
             <TextInput value={description} onChangeText={setDescription} placeholder="what is on your mind?" multiline />
             
+            <Image source={{ uri: image}} style={styles.image} />
+
             <View style={styles.buttonContainer}>
                 <Button title="post" onPress={onSubmit} />
             </View>
@@ -46,17 +73,24 @@ const styles = StyleSheet.create({
         width: "100%",
         marginBottom: 10
     },
-    image: {
+    profileImage: {
         height: 40,
         width: 40,
         borderRadius: 30,
         marginRight: 10
+    },
+    image: {
+        width: "100%",
+        aspectRatio: 1
     },
     name: {
         fontWeight: "500"
     },
     buttonContainer: {
         marginTop: "auto"
+    },
+    icon: {
+        marginLeft: "auto"
     }
 })
 
