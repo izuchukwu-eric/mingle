@@ -10,6 +10,11 @@
       "StackName": "amplify-mingle-staging-163956",
       "StackId": "arn:aws:cloudformation:eu-central-1:161904080703:stack/amplify-mingle-staging-163956/06d9ebd0-39cc-11ed-b14d-02c989de83d0",
       "AmplifyAppId": "d2swb7mko2f7g5"
+    },
+    "categories": {
+      "auth": {
+        "mingle": {}
+      }
     }
   }
 }
