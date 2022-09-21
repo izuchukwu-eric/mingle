@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Image,
   TextInput,
-  KeyboardAvoidingView,
   Pressable,
   Button,
 } from "react-native";
@@ -17,7 +16,6 @@ const dummy_img = "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/u
 const UpdateProfileScreen = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
-  const insets = useSafeAreaInsets();
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -37,28 +35,23 @@ const UpdateProfileScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={[styles.container, { marginBottom: insets.bottom }]}
-      contentContainerStyle={{ flex: 1 }}
-      keyboardVerticalOffset={150}
-    >
-      <Pressable onPress={pickImage} style={styles.imagePickerContainer}>
-        <Image source={{ uri: image || dummy_img }} style={styles.image} />
-        <Text>Change photo</Text>
-      </Pressable>
+        <View style={styles.container}>
+            <Pressable onPress={pickImage} style={styles.imagePickerContainer}>
+                <Image source={{ uri: image || dummy_img }} style={styles.image} />
+                <Text>Change photo</Text>
+            </Pressable>
 
-      <TextInput
-        placeholder="Full name"
-        style={styles.input}
-        value={name}
-        onChangeText={setName}
-      />
+            <TextInput
+                placeholder="Full name"
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
+            />
 
-      <View style={styles.buttonContainer}>
-        <Button onPress={onSave} title="Save" disabled={!name} />
-      </View>
-    </KeyboardAvoidingView>
+            <View style={styles.buttonContainer}>
+                <Button onPress={onSave} title="Save" disabled={!name} />
+            </View>
+        </View>
   );
 };
 
