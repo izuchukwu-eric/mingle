@@ -12,7 +12,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { DataStore } from "aws-amplify";
-import { User } from "../models"
+import { User } from "../models";
+import { useNavigation } from "@react-navigation/native";
 
 const dummy_img = "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/user.png";
 
@@ -36,6 +37,7 @@ const UpdateProfileScreen = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
   const [user, setUser] = useState(null)
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchUSer = async () => {
@@ -63,6 +65,23 @@ const UpdateProfileScreen = () => {
   };
 
   const onSave = async () => {
+    if (user) {
+      //update user
+      await updateUser()
+    } else {
+      // create user
+      await createUser()
+    }
+    navigation.goBack()
+  };
+
+  const updateUser = async () => {
+    await DataStore.save(User.copyOf(user, (update) => {
+      update.name = name;
+    }))
+  }
+
+  const createUser = async () => {
     const userData = await Auth.currentAuthenticatedUser();
 
     const newUser = {
@@ -72,7 +91,8 @@ const UpdateProfileScreen = () => {
     };
 
     await API.graphql(graphqlOperation(createUser, {input: newUser}));
-  };
+  }
+
 
   return (
         <View style={styles.container}>
