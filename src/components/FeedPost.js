@@ -9,7 +9,7 @@ const FeedPost = ({ post }) => {
   return (
       <View style={styles.post}>
         {/**Header */}
-          <Pressable style={styles.header} onPress={() => navigation.navigate("Profile", { id: post.User?.id })}>
+          <Pressable style={styles.header} onPress={() => navigation.navigate("Profile", { id: post.postsUserId })}>
             <Image source={{ uri: post.User?.image }} style={styles.profileImage} />
             <View>
               <Text style={styles.name}>{post.User?.name}</Text>
