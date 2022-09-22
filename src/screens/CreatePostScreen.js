@@ -3,6 +3,8 @@ import { Text, StyleSheet, View, Image, TextInput, Button } from "react-native"
 import { Entypo } from "@expo/vector-icons"
 import * as ImagePicker from "expo-image-picker"
 import { useNavigation } from "@react-navigation/native";
+import { DataStore, Auth } from "aws-amplify";
+import { Posts } from "../models"
 
 
 const user = {
@@ -18,10 +20,20 @@ const CreatePostScreen = () => {
     const [ description, setDescription ] = useState("hello");
     const [ image, setImage ] = useState(null);
 
-    const onSubmit = () => {
-        console.warn("on submit", description)
-        setDescription("")
+    const onSubmit = async () => {
+        const userData = await Auth.currentAuthenticatedUser()
 
+        const newPost = new Posts({
+            description,
+            numberOfLikes: 0,
+            numberOfShares: 0,
+            postsUserId: userData.attributes.sub,
+            _version: 1
+        })
+
+        await DataStore.save(newPost);
+
+        setDescription("")
         navigation.goBack();
     }
 
