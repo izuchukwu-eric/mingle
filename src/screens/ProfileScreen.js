@@ -120,7 +120,7 @@ import {
         const isMe = userId === userData.attributes.sub
 
         const dbUser = await DataStore.query(User, userId);
-        
+
         if(!dbUser) {
           if(isMe) {
             navigation.navigate("Update Profile")
@@ -139,7 +139,6 @@ import {
 
     }, [])
   
-    console.warn("User: ", route?.params?.id);
   
     return (
       <FlatList
