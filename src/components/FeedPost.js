@@ -9,10 +9,10 @@ const FeedPost = ({ post }) => {
   return (
       <View style={styles.post}>
         {/**Header */}
-          <Pressable style={styles.header} onPress={() => navigation.navigate("Profile", { id: post.User.id })}>
-            <Image source={{ uri: post.User.image }} style={styles.profileImage} />
+          <Pressable style={styles.header} onPress={() => navigation.navigate("Profile", { id: post.User?.id })}>
+            <Image source={{ uri: post.User?.image }} style={styles.profileImage} />
             <View>
-              <Text style={styles.name}>{post.User.name}</Text>
+              <Text style={styles.name}>{post.User?.name}</Text>
               <Text style={styles.subTitle}>{post.createdAt}</Text>
             </View>
               <Entypo name="dots-three-horizontal" size={18} color="gray" style={styles.icon} />
